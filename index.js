@@ -5,6 +5,8 @@ const adminRouter = require("./routes/admin");
   // IMPORTS FROM OTHER FILES
   const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
+const userRouter = require("./routes/user");
+
 // INIT
 //const PORT = 3000;
 const PORT = process.env.PORT || 3000; // added by me 3000 was 5000
@@ -17,6 +19,7 @@ const DB = "mongodb+srv://tushar:Tushar123@cluster0.2v3lyls.mongodb.net/?retryWr
   app.use(authRouter);
   app.use(adminRouter);  
   app.use(productRouter);  
+  app.use(userRouter);
 
   // CONNECTIONS
   mongoose.connect(DB).then(() => {
