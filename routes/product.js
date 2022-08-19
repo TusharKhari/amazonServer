@@ -14,7 +14,19 @@ productRouter.get("/api/products", auth, async (req, res) => {
        // console.log(req.query.category)
         const products = await Product.find({
             category : req.query.category
-        });
+ });
+        res.json(products);
+    } catch (e) {
+        res.status(500).json({error : e.message});
+    }
+});
+
+productRouter.get("/api/all-products", auth, async (req, res) => {
+    try {
+       // console.log(req.query.category)
+        const products = await Product.find({
+           // category : req.query.category
+ });
         res.json(products);
     } catch (e) {
         res.status(500).json({error : e.message});
@@ -76,29 +88,52 @@ productRouter.get("/api/products/search/:name", auth, async (req, res) => {
 
   // deal of the day = highest rated product
 // auth is middleware
-  productRouter.get("/api/deal-of-day", auth, async( req, res) => {
-    try {
-        let products = await Product.find({});
-        // these a and b are two nos. ex product 1 ,product 2
-      products =  products.sort((a,b) => {
-            let aSum = 0;
-            let bSum = 0;
+//   productRouter.get("/api/deal-of-day", auth, async( req, res) => {
+//     try {
+//         let products = await Product.find({});
+//         // these a and b are two nos. ex product 1 ,product 2
+//       products =  products.sort((a,b) => {
+//             let aSum = 0;
+//             let bSum = 0;
 
-            for(let i=0; i<a.ratings.length; i++){
-                aSum += a.ratings[i].rating;
-            }
-            for(let i=0; i<b.ratings.length; i++){
-                bSum += a.ratings[i].rating;
-            }
-            return aSum < bSum ? 1 : -1;
+//             for(let i=0; i<a.ratings.length; i++){
+//                 aSum += a.ratings[i].rating;
+//             }
+//             for(let i=0; i<b.ratings.length; i++){
+//                 bSum += a.ratings[i].rating;
+//             }
+//             return aSum < bSum ? 1 : -1;
 
             
-        });
-        res.json(products[0]);
-    } catch (error) {
-        res.status(500).json({error : e.message});
+//         });
+//         res.json(products[0]);
+//     } catch (e) {
+//         res.status(500).json({error : e.message});
+//     }
+//   } );
+
+productRouter.get("/api/deal-of-day", auth, async (req, res) => {
+    try {
+      let products = await Product.find({});
+  
+      products = products.sort((a, b) => {
+        let aSum = 0;
+        let bSum = 0;
+  
+        for (let i = 0; i < a.ratings.length; i++) {
+          aSum += a.ratings[i].rating;
+        }
+  
+        for (let i = 0; i < b.ratings.length; i++) {
+          bSum += b.ratings[i].rating;
+        }
+        return aSum < bSum ? 1 : -1;
+      });
+  
+      res.json(products[0]);
+    } catch (e) {
+      res.status(500).json({ error: e.message });
     }
-  } );
-
-
+  });
+  
 module.exports = productRouter;
