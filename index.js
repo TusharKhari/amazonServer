@@ -6,6 +6,7 @@ const adminRouter = require("./routes/admin");
   const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
+const cors = require('cors');
 
 // INIT
 //const PORT = 3000;
@@ -15,6 +16,7 @@ const DB = "mongodb+srv://tushar:Tushar123@cluster0.2v3lyls.mongodb.net/?retryWr
 
   // middleware
   //CLIENT -> SERVER -. CLIENT
+  app.use(cors());
   app.use(express.json());
   app.use(authRouter);
   app.use(adminRouter);  
